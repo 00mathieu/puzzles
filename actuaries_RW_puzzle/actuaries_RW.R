@@ -126,3 +126,12 @@ results_db[,.(COUNT=.N, PROB=.N/nrow(results_db)), .(MORE_20_MOVES = NO_MOVES>20
 # expected number of steps in walk
 results_db[,.(EXPECTED_STEPS = mean(NO_MOVES))]
 results_db[,.(EXPECTED_STEPS = median(NO_MOVES))]
+
+library(ggplot2)
+ggplot(results_db,aes(x=NO_MOVES)) +
+    geom_histogram(bins = 50) +
+    geom_vline(xintercept = results_db[,mean(NO_MOVES)], colour="red")+
+    geom_vline(xintercept = results_db[,median(NO_MOVES)], colour="blue")+
+    xlab("# Steps")+
+    ylab("Count") +
+    ggtitle("Distribution of # steps in each simulation")
